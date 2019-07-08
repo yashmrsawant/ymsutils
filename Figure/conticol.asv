@@ -1,0 +1,36 @@
+function [colmat] = conticol(color, n, varargin)
+%%
+%  Usage: Suppose for red color conticol([1, 0, 0], 10, 'col2dark') or 
+%   conticol([1, 0, 0], 10, 'col2fade')
+%  colmat: [n x 3] matrix containing the continous range of color
+%  degradation from white to red
+
+colmat = color;
+if nargin == 3
+    fromgrad = 0.8;
+else
+    fromgrad = varargin{2};
+end
+%disp([fromgrad]);
+if strcmp(varargin{1}, 'col2dark')
+    colmat = zeros(n, 3);
+    
+    idx = find(color == 1); decr = ones(size(idx));
+    if length(idx) == 0
+        error('Cannot convert for opt blacktocol for black');
+    end
+    for i = [2 : n]
+        colmat(i, idx) = colmat(i, idx) - decr * i / n;
+    end
+    
+elseif strcmp(varargin{1}, 'col2fade')
+    colmat = fromgrad * ones(n, 3);
+    idx = find(color == 0); decr = ones(size(idx));
+    if length(idx) == 0
+        error('Cannot convert for opt whitetocol for white');
+    end
+    for i = [2 : (n - 1)]
+        colmat(i, idx) = colmat(i, idx) - fromgrad * decr * i / n;
+    end
+    colmat(n, :) = color;
+end
