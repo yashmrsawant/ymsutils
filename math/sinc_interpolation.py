@@ -29,8 +29,6 @@ def sinc_interpolation1(sig_mat1, dim, tr1, tr2):
             ts = ts.reshape((1, 1, nt))
             sig_mat2[:, :, i] = np.sum(sig_mat1 * ts, axis = dim)
     return [{'ts' : ts1, 'signal' : sig_mat1}, {'ts' : ts2, 'signal' : sig_mat2}]
-  
-  import numpy as np
 
 def sinc_interpolation2(sig_mat1, dim, tr1, tr2):
     """
